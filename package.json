@@ -2,8 +2,7 @@
   "name": "autongon-scripts",
   "version": "1.0.0",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "run": "npx ts-node template.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
@@ -11,6 +10,7 @@
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
+    "@types/node": "^20.5.0",
     "rollup": "^3.26.3",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.1",
