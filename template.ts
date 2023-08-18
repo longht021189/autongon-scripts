@@ -10,7 +10,7 @@ async function main() {
   try {
     await visitWeb(driver, 'http://www.google.com/');
     await searchWithGoogle(driver, 'Nike,Adiddas,Sephora');
-    await clickGoogleItem(driver, 0);
+    await clickGoogleItem(driver, '0');
   } catch(error: any) {
     console.log('ERROR', error);
   } finally {

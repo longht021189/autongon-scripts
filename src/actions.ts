@@ -15,7 +15,7 @@ export async function searchWithGoogle(driver: ThenableWebDriver, keywords: stri
   await elements.submit();
 }
 
-export async function clickGoogleItem(driver: ThenableWebDriver, index: number) {
+export async function clickGoogleItem(driver: ThenableWebDriver, index: string) {
   const elements2 = await driver.findElement(By.xpath("//div[@id='search']//div[@class='g']//a"));
   console.log(`find element search: ${elements2}`);
   await elements2.click();
