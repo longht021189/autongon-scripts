@@ -1,7 +1,7 @@
 import { By, until } from 'selenium-webdriver';
-import { getDriver } from './src/driver';
-import { getRemoteUrl } from './src/input';
-import * as actions from './src/actions';
+import { getDriver } from '../src/driver';
+import { getRemoteUrl } from '../src/input';
+import * as actions from '../src/actions';
 
 async function main() {
   const remoteUrl = getRemoteUrl();
