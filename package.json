@@ -1,9 +1,6 @@
 {
   "name": "autongon-scripts",
   "version": "1.0.0",
-  "scripts": {
-    "run": "npx ts-node template.ts"
-  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
