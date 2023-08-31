@@ -10,12 +10,12 @@ async function main() {
 
   try {
     // TODO
+
+    actions.exitDriver(driver, ExitCode.Success);
   } catch(error: any) {
     console.log('ERROR', error);
-    process.exit(ExitCode.UnknownError);
+    actions.exitDriver(driver, ExitCode.UnknownError);
   }
-
-  process.exit(ExitCode.Success);
 }
 
 main();

@@ -10,7 +10,7 @@ export async function visitWeb(driver: ThenableWebDriver, actionIndex: number, u
     }
   } catch (error) {
     console.log('[visitWeb] ERROR', error);
-    process.exit(ExitCode.VisitWebError + actionIndex * 10000);
+    exitDriver(driver, ExitCode.VisitWebError + actionIndex * 10000);
   }
 }
 
@@ -22,10 +22,10 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
   console.log(`[searchWithGoogle] keywords count: ${array.length}`);
 
   if (array.length === 0) {
-    process.exit(ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
+    exitDriver(driver, ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
   }
   if (array.length === 1 && array[0] === '') {
-    process.exit(ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
+    exitDriver(driver, ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
   }
 
   const keyword = array[Math.floor(Math.random() * array.length)];
@@ -49,10 +49,10 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
       }
     }
 
-    process.exit(ExitCode.FocusSearchInputError + actionIndex * 10000);
+    exitDriver(driver, ExitCode.FocusSearchInputError + actionIndex * 10000);
   } catch (error) {
     console.log('[searchWithGoogle] ERROR', error);
-    process.exit(ExitCode.AccessSearchInputError + actionIndex * 10000);
+    exitDriver(driver, ExitCode.AccessSearchInputError + actionIndex * 10000);
   }
 }
 
@@ -67,16 +67,17 @@ export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: nu
     await driver.wait(until.elementLocated(By.xpath("/title")), 20 * 1000);
   } catch (error) {
     console.log('[clickGoogleItem] ERROR', error);
-    process.exit(ExitCode.GetSearchResultError + actionIndex * 10000);
+    exitDriver(driver, ExitCode.GetSearchResultError + actionIndex * 10000);
   }
 }
 
-export async function exitDriver(driver: ThenableWebDriver, actionIndex: number) {
+export async function exitDriver(driver: ThenableWebDriver, code: number) {
   try {
     await driver.quit();
+    process.exit(code);
   } catch (error) {
     console.log('[exitDriver] ERROR', error);
-    process.exit(ExitCode.ExitError + actionIndex * 10000);
+    process.exit(ExitCode.ExitError);
   }
 }
 
