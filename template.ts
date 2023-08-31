@@ -13,8 +13,6 @@ async function main() {
   } catch(error: any) {
     console.log('ERROR', error);
     process.exit(ExitCode.UnknownError);
-  } finally {
-    await driver.quit();
   }
 }
 

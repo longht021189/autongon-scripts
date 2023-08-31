@@ -50,3 +50,20 @@ export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: nu
     process.exit(ExitCode.GetSearchResultError + actionIndex * 10000);
   }
 }
+
+export async function exitDriver(driver: ThenableWebDriver, actionIndex: number) {
+  try {
+    await driver.quit();
+  } catch (error) {
+    console.log('[exitDriver] ERROR', error);
+    process.exit(ExitCode.ExitError + actionIndex * 10000);
+  }
+}
+
+export async function wait(driver: ThenableWebDriver, actionIndex: number, seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 1000 * seconds);
+  });
+}

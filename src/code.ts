@@ -5,4 +5,5 @@ export enum ExitCode {
     SearchKeywordsEmpty = 3,
     AccessSearchInputError = 4,
     GetSearchResultError = 5,
+    ExitError = 6,
 }
