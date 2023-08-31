@@ -38,7 +38,7 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
       const element = await driver.findElement(By.name('q'));
       await element.click();
       await element.sendKeys(keyword);
-      
+
       try {
         await driver.wait(until.elementLocated(By.xpath("//ul")), 1000);
       } catch (ignore) {
@@ -69,8 +69,9 @@ export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: nu
     console.log(`[clickGoogleItem] find elements.length = ${elements.length}`);
     const i = parseInt(index, 10);
     const link = elements[i].findElement(By.xpath('//a[@href and @jsaction and @jscontroller]'));
+    const href = await link.getAttribute('href');
     await link.click();
-    await driver.wait(until.elementLocated(By.xpath("/title")), 20 * 1000);
+    await driver.wait(until.urlIs(href), 20 * 1000);
   } catch (error) {
     console.log('[clickGoogleItem] ERROR', error);
     await exitDriver(driver, ExitCode.GetSearchResultError + actionIndex * 10000);
