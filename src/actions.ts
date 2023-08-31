@@ -60,10 +60,10 @@ export async function exitDriver(driver: ThenableWebDriver, actionIndex: number)
   }
 }
 
-export async function wait(driver: ThenableWebDriver, actionIndex: number, seconds: number): Promise<void> {
+export async function wait(driver: ThenableWebDriver, actionIndex: number, seconds: string): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
-    }, 1000 * seconds);
+    }, 1000 * parseInt(seconds, 10));
   });
 }
