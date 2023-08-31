@@ -6,4 +6,5 @@ export enum ExitCode {
     AccessSearchInputError = 4,
     GetSearchResultError = 5,
     ExitError = 6,
+    FocusSearchInputError = 7,
 }

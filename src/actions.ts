@@ -3,7 +3,11 @@ import { ExitCode } from './code';
 
 export async function visitWeb(driver: ThenableWebDriver, actionIndex: number, url: string) {
   try {
-    await driver.get(url);
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      await driver.get(url);
+    } else {
+      await driver.get('https://' + url);
+    }
   } catch (error) {
     console.log('[visitWeb] ERROR', error);
     process.exit(ExitCode.VisitWebError + actionIndex * 10000);
@@ -28,10 +32,11 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
   console.log(`[searchWithGoogle] keyword: ${keyword}`);
 
   try {
-    driver.executeScript('window.focus();');
+    await driver.executeScript('window.focus();');
 
     for (let i = 0; i < 5; ++i) {
       const element = await driver.findElement(By.name('q'));
+      await element.click();
       await element.sendKeys(keyword);
       await wait(driver, actionIndex, '3');
       const text = await element.getAttribute('value');
@@ -39,11 +44,12 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
       if (text == keyword) {
         await driver.wait(until.elementLocated(By.xpath("//ul")), 20 * 1000);
         await element.submit();
-        break;
+        await driver.wait(until.elementLocated(By.xpath(`//div[@id='search']/div/div/div`)), 20 * 1000);
+        return;
       }
     }
 
-    await driver.wait(until.elementLocated(By.xpath(`//div[@id='search']/div/div/div`)), 20 * 1000);
+    process.exit(ExitCode.FocusSearchInputError + actionIndex * 10000);
   } catch (error) {
     console.log('[searchWithGoogle] ERROR', error);
     process.exit(ExitCode.AccessSearchInputError + actionIndex * 10000);
@@ -58,7 +64,7 @@ export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: nu
     const i = parseInt(index, 10);
     const link = elements[i].findElement(By.xpath('//a[@href and @jsaction and @jscontroller]'));
     await link.click();
-    await driver.wait(until.elementLocated(By.xpath("//title")), 5 * 1000);
+    await driver.wait(until.elementLocated(By.xpath("/title")), 20 * 1000);
   } catch (error) {
     console.log('[clickGoogleItem] ERROR', error);
     process.exit(ExitCode.GetSearchResultError + actionIndex * 10000);
