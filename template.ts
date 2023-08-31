@@ -2,6 +2,7 @@ import { By, until } from 'selenium-webdriver';
 import { getDriver } from '../src/driver';
 import { getRemoteUrl } from '../src/input';
 import * as actions from '../src/actions';
+import { ExitCode } from '../src/code';
 
 async function main() {
   const remoteUrl = getRemoteUrl();
@@ -11,6 +12,7 @@ async function main() {
     // TODO
   } catch(error: any) {
     console.log('ERROR', error);
+    process.exit(ExitCode.UnknownError);
   } finally {
     await driver.quit();
   }
@@ -19,3 +21,5 @@ async function main() {
 Promise.all([
   main(),
 ]);
+
+process.exit(ExitCode.Success);
