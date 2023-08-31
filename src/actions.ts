@@ -10,7 +10,7 @@ export async function visitWeb(driver: ThenableWebDriver, actionIndex: number, u
     }
   } catch (error) {
     console.log('[visitWeb] ERROR', error);
-    exitDriver(driver, ExitCode.VisitWebError + actionIndex * 10000);
+    await exitDriver(driver, ExitCode.VisitWebError + actionIndex * 10000);
   }
 }
 
@@ -22,10 +22,10 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
   console.log(`[searchWithGoogle] keywords count: ${array.length}`);
 
   if (array.length === 0) {
-    exitDriver(driver, ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
+    await exitDriver(driver, ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
   }
   if (array.length === 1 && array[0] === '') {
-    exitDriver(driver, ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
+    await exitDriver(driver, ExitCode.SearchKeywordsEmpty + actionIndex * 10000);
   }
 
   const keyword = array[Math.floor(Math.random() * array.length)];
@@ -49,10 +49,10 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
       }
     }
 
-    exitDriver(driver, ExitCode.FocusSearchInputError + actionIndex * 10000);
+    await exitDriver(driver, ExitCode.FocusSearchInputError + actionIndex * 10000);
   } catch (error) {
     console.log('[searchWithGoogle] ERROR', error);
-    exitDriver(driver, ExitCode.AccessSearchInputError + actionIndex * 10000);
+    await exitDriver(driver, ExitCode.AccessSearchInputError + actionIndex * 10000);
   }
 }
 
@@ -67,7 +67,7 @@ export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: nu
     await driver.wait(until.elementLocated(By.xpath("/title")), 20 * 1000);
   } catch (error) {
     console.log('[clickGoogleItem] ERROR', error);
-    exitDriver(driver, ExitCode.GetSearchResultError + actionIndex * 10000);
+    await exitDriver(driver, ExitCode.GetSearchResultError + actionIndex * 10000);
   }
 }
 
