@@ -28,6 +28,8 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
   console.log(`[searchWithGoogle] keyword: ${keyword}`);
 
   try {
+    driver.executeScript('window.focus();');
+
     for (let i = 0; i < 5; ++i) {
       const element = await driver.findElement(By.name('q'));
       await element.sendKeys(keyword);
