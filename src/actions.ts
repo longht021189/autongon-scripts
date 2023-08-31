@@ -38,7 +38,13 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
       const element = await driver.findElement(By.name('q'));
       await element.click();
       await element.sendKeys(keyword);
-      await wait(driver, actionIndex, '3');
+      
+      try {
+        await driver.wait(until.elementLocated(By.xpath("//ul")), 1000);
+      } catch (ignore) {
+        await wait(driver, actionIndex, '2');
+      }
+      
       const text = await element.getAttribute('value');
       console.log(`[searchWithGoogle] text: ${text}`);
       if (text == keyword) {
