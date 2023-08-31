@@ -28,11 +28,20 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
   console.log(`[searchWithGoogle] keyword: ${keyword}`);
 
   try {
-    const element = await driver.findElement(By.name('q'));
-    console.log(`[searchWithGoogle] q elements = null? ${element == null}`);
-    await element.sendKeys(keyword);
-    await driver.wait(until.elementLocated(By.xpath("//ul")), 5 * 1000);
-    await element.submit();
+    for (let i = 0; i < 5; ++i) {
+      const element = await driver.findElement(By.name('q'));
+      await element.sendKeys(keyword);
+      await wait(driver, actionIndex, '3');
+      const text = await element.getAttribute('value');
+      console.log(`[searchWithGoogle] text: ${text}`);
+      if (text == keyword) {
+        await driver.wait(until.elementLocated(By.xpath("//ul")), 20 * 1000);
+        await element.submit();
+        break;
+      }
+    }
+
+    await driver.wait(until.elementLocated(By.xpath(`//div[@id='search']/div/div/div`)), 20 * 1000);
   } catch (error) {
     console.log('[searchWithGoogle] ERROR', error);
     process.exit(ExitCode.AccessSearchInputError + actionIndex * 10000);
@@ -41,9 +50,12 @@ export async function searchWithGoogle(driver: ThenableWebDriver, actionIndex: n
 
 export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: number, index: string) {
   try {
-    const element = await driver.findElement(By.xpath("//div[@id='search']//div[@class='g']//a"));
-    console.log(`[clickGoogleItem] find element search = null? ${element == null}`);
-    await element.click();
+    const xpath = By.xpath(`//div[@id='search']/div/div/div`);
+    const elements = await driver.findElements(xpath);
+    console.log(`[clickGoogleItem] find elements.length = ${elements.length}`);
+    const i = parseInt(index, 10);
+    const link = elements[i].findElement(By.xpath('//a[@href and @jsaction and @jscontroller]'));
+    await link.click();
     await driver.wait(until.elementLocated(By.xpath("//title")), 5 * 1000);
   } catch (error) {
     console.log('[clickGoogleItem] ERROR', error);

@@ -14,10 +14,8 @@ async function main() {
     console.log('ERROR', error);
     process.exit(ExitCode.UnknownError);
   }
+
+  process.exit(ExitCode.Success);
 }
 
-Promise.all([
-  main(),
-]);
-
-process.exit(ExitCode.Success);
+main();
