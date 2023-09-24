@@ -68,7 +68,7 @@ export async function clickGoogleItem(driver: ThenableWebDriver, actionIndex: nu
     const elements = await driver.findElements(xpath);
     console.log(`[clickGoogleItem] find elements.length = ${elements.length}`);
     const i = parseInt(index, 10);
-    const link = elements[i].findElement(By.xpath('//a[@href and @jsaction and @jscontroller]'));
+    const link = elements[i].findElement(By.xpath('//span[@jscontroller]/a[@href and @jsaction and @jscontroller]'));
     const href = await link.getAttribute('href');
     await link.click();
     await driver.wait(until.urlIs(href), 20 * 1000);
